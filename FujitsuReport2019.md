@@ -10,6 +10,7 @@
 - Tangle (DAG)
 - Curl Hash function
 - Current status of security evaluation on Tangle and DAG
+- evaluation of concept (if hash is good)
 
 ### IOTAプロジェクトについて指摘された問題点と対応経緯（3p）
 
@@ -27,6 +28,12 @@ http://www.tangleblog.com/wp-content/uploads/2018/02/letters.pdf
 ### IOTAプロジェクトの現状（1p）
 - Current software
 - Development Roadmap
+
+### Alternative for IOT
+- スケーラビリティ　機器数
+- サプライチェーン
+- トレーサビリティ
+- Single Point
 
 ### IOTAプロジェクトの新たな攻撃募集（1p）
 - Call for attack to Troika
@@ -46,3 +53,5 @@ http://blog.iota.org/615d2d79001
 ### その他の動向（1p）
 - ITU-T
 - IETF
+- FC
+- ScalingBitcoin
