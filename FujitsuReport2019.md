@@ -8,18 +8,37 @@
 
 本報告書の内容は、2019年3月20日時点のものであり、その後の動向については反映されていないことに注意が必要である。
 
-## IOTAについての調査 (10p)
+## IOTAについての調査
 ### IOTAプロジェクトの概要（1p）
-- Goal
-- Organization
-- ICO
-- Investors
+ブロックチェーンは、支払いや決済をはじめとして、様々なトランザクションを実行する基盤として注目を集めている。様々なアプリケーションが検討されている中で、IoT（Internet of Things）は、有力なユースケースの1つと考えられている。その理由は、分散したIoTデバイス間で発生するトランザクションの基盤として有効と考えらること、IoTアプリケーションおける課金では、マイクロペイメントが多用される可能性が高いため、マイクロペイメントの処理を行う基盤としてブロックチェーン上の通貨やトークンが有効あると考えられているためである。
+
+[IOTA](https://www.iota.org)は、そのようなIoT用途にフォーカスを当てた、マイクロトランザクションとデータの非改ざんを目的とした分散型台帳プラットフォームである。IOTAが解決しようとしている課題は、主にはBitcoinなどのブロックチェーン技術がもつスケーラビリティ問題である。（パブリック）ブロックチェーンでは、分散合意を含めたセキュリティを保ちながらブロックサイズを大きくすることは困難であり、ビットコインの現在の仕様では、Layer2技術を使わない場合、系全体で、1秒あたり7トランザクション程度しか処理することができない。IOTAではこの問題を解決する技術的手段として、後述するDAG（有向非巡回グラフ）を用いている。IOTAではこれをTangleと呼んでいる。
+
+IOTAは、Tangleを使うことの効用として、以下の点を挙げている。
+
+- スケーラビリティの向上
+- 省リソースデバイスでも実行可能であること
+- トランザクション手数料が0であること
+- データに関するセキュアな送信
+- オフライン処理の許容
+- 耐量子計算機
+
+以上については、次節以降において概要と現時点で明らかになっている評価を示す。
+
+IOTAに関する活動、プロダクトの開発は、IOTA財団が主体となって行なっている（IOTAの開発自身はオープンソース）。IOTA財団は、2017年にドイツで正式に登録された非営利組織（NPO)である。IOTAは、IOTAトークンを発行し、いわゆるICO（Initial Coin Offering）によって、2015年の11月と12月に、$500,000相当の暗号通貨建てで資金調達を行なっている。IOTA財団によると、このトークンについて設立者やデベロッパーには特別な配分はなされていないとする。そのほかに、政府からのグラントや寄付などを収入源とするとしている。この報告書の執筆時点でのマーケットキャップは、$775,556,954である（約850億円相当）である。また、IOTAにはBoschが出資をしている。
 
 ### IOTAプロトコルの概要（2p）
-- Tangle (DAG)
-- Curl Hash function
-- Current status of security evaluation on Tangle and DAG
-- evaluation of concept (if hash is good)
+本節では、IOTAプロトコルの概要を述べる。
+
+#### DAG（有向非巡回グラフ）
+IOTAで用いられているのは、ブロックチェーンのようにブロックのハッシュ値を一連のチェーンのようにつなぐのではなく、DAG（有向非巡回グラフ）
+
+#### Curl Hash function
+
+#### Current status of security evaluation on DAG and Tangle
+#### evaluation of concept (if hash is good)
+
+
 
 ### IOTAプロジェクトについて指摘された問題点と対応経緯（2p）
 - Attack on Curl
@@ -33,9 +52,32 @@ http://www.tangleblog.com/wp-content/uploads/2018/02/letters.pdf
 - https://thebitcoinnews.com/mit-criticizes-iota-gaping-hole-in-its-software-and-deceptive-marketing/
 - https://blog.iota.org/official-iota-foundation-response-to-the-digital-currency-initiative-at-the-mit-media-lab-part-1-72434583a2
 
-### IOTAプロジェクトの現状（1p）
-- Current software
-- Development Roadmap
+### IOTAプロジェクトの新たな攻撃募集（1p）
+- Call for attack to Troika
+http://blog.iota.org/678e741315e8
+http://blog.iota.org/615d2d79001
+
+### IOTAプロジェクトの現状
+#### プロダクト
+現状IOTAのノードを構成するウォレットプログラムがWindowsとMac版で提供されている。ソースコードとアプリケーションは、以下のURLからダウンロードできる。
+
+https://github.com/iotaledger/wallet
+
+このウォレットは、IOTAプロトコルのフルノード（Tangleを実行するし、データを蓄えるノード）と、ライトノードのいずれかを選んで実行することができる。
+
+#### R&Dロードマップ
+IOTAは、研究開発のロードマップとして以下の7つの項目を示している。
+
+- Coordicide: IOTAにおける合意アルゴリズムの脅威分析、数学的なモデル化、シミュレーション、および形式化を行う。
+- Spam prevention and detection: IOTAのDAGのネットワークに参加するデバイスの中から、以上なデバイスを取り除く技術の研究。
+- Automatic peer discovery：DAGのネットワークに参加するデバイス（Peer）の自動発見を行うプロトコルの開発。
+- Economic Incentives：より現実的なゲーム理論的な解析を行い、IOTAのインセンティブモデルと、ナッシュ均衡であるかどうかの研究。将来Tangleが広く普及し、スケールした際にもインセンティブモデルが正当に働くかどうかの検証する。
+- Consensus Algorithm spec：IOTAの合意アルゴリズムについて、その詳細スペックを策定し、ピアレビューに掛ける。
+- Cryptography spec：IOTAで使われている暗号プリミティブの研究。ハッシュ関数と電子署名、および脅威モデル。その成果を将来のピアレビューに掛ける。
+- Attack analysis：合意アルゴリズムに対する攻撃の可能性の研究。
+
+上記の研究開発テーマのリストからわかることは、IOTAの基本的なアルゴリズムでさえ、一定程度の検証を経たものがなく、安全性の検証という観点ではほぼ何もない状態でプロダクトの開発が行われていると考えた方が良い。これは前述の脆弱性の対応が不十分にできていない経緯と符合するものである。現状、ブロックチェーンや分散型台帳技術について、安全性証明を行うフレームワークは存在せず、また数年以内に一定の理解を得たフレームワークを作ることが難しいことを考えると、さらに解析が複雑、かつ異常系への対応などが不明なIOTAについて、5年の単位では実際のビジネスに展開するのは難しいと考えられる。
+
 
 ### Alternative for IOT（1p）
 - スケーラビリティ　機器数
@@ -43,10 +85,6 @@ http://www.tangleblog.com/wp-content/uploads/2018/02/letters.pdf
 - トレーサビリティ
 - Single Point
 
-### IOTAプロジェクトの新たな攻撃募集（1p）
-- Call for attack to Troika
-http://blog.iota.org/678e741315e8
-http://blog.iota.org/615d2d79001
 
 ## 標準化および研究開発動向 (5p)
 ### ISO TC307の現状（3p）
