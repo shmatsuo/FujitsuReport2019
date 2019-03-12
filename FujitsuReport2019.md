@@ -38,7 +38,9 @@ IOTAで用いられているのは、ブロックチェーンのようにブロ�
 #### Current status of security evaluation on DAG and Tangle
 #### evaluation of concept (if hash is good)
 
+#### 現状のセキュリティ評価
 
+Side Tangle Attack
 
 ### IOTAプロジェクトについて指摘された問題点と対応経緯（2p）
 - Attack on Curl
