@@ -9,7 +9,7 @@
 本報告書の内容は、2019年3月20日時点のものであり、その後の動向については反映されていないことに注意が必要である。
 
 ## IOTAについての調査
-### IOTAプロジェクトの概要（1p）
+### IOTAプロジェクトの概要
 ブロックチェーンは、支払いや決済をはじめとして、様々なトランザクションを実行する基盤として注目を集めている。様々なアプリケーションが検討されている中で、IoT（Internet of Things）は、有力なユースケースの1つと考えられている。その理由は、分散したIoTデバイス間で発生するトランザクションの基盤として有効と考えらること、IoTアプリケーションおける課金では、マイクロペイメントが多用される可能性が高いため、マイクロペイメントの処理を行う基盤としてブロックチェーン上の通貨やトークンが有効あると考えられているためである。
 
 [IOTA](https://www.iota.org)は、そのようなIoT用途にフォーカスを当てた、マイクロトランザクションとデータの非改ざんを目的とした分散型台帳プラットフォームである。IOTAが解決しようとしている課題は、主にはBitcoinなどのブロックチェーン技術がもつスケーラビリティ問題である。（パブリック）ブロックチェーンでは、分散合意を含めたセキュリティを保ちながらブロックサイズを大きくすることは困難であり、ビットコインの現在の仕様では、Layer2技術を使わない場合、系全体で、1秒あたり7トランザクション程度しか処理することができない。IOTAではこの問題を解決する技術的手段として、後述するDAG（有向非巡回グラフ）を用いている。IOTAではこれをTangleと呼んでいる。
@@ -27,7 +27,7 @@ IOTAは、Tangleを使うことの効用として、以下の点を挙げてい�
 
 IOTAに関する活動、プロダクトの開発は、IOTA財団が主体となって行なっている（IOTAの開発自身はオープンソース）。IOTA財団は、2017年にドイツで正式に登録された非営利組織（NPO)である。IOTAは、IOTAトークンを発行し、いわゆるICO（Initial Coin Offering）によって、2015年の11月と12月に、$500,000相当の暗号通貨建てで資金調達を行なっている。IOTA財団によると、このトークンについて設立者やデベロッパーには特別な配分はなされていないとする。そのほかに、政府からのグラントや寄付などを収入源とするとしている。この報告書の執筆時点でのマーケットキャップは、$775,556,954である（約850億円相当）である。また、IOTAにはBoschが出資をしている。
 
-### IOTAプロトコルの概要（2p）
+### IOTAプロトコルの概要
 本節では、IOTAプロトコルの概要を述べる。
 
 #### DAG（有向非巡回グラフ）
@@ -52,8 +52,7 @@ IOTAのWebページによると、IOTAの特徴として以下の点が主張さ
 •	量子計算機耐性
 新しく開発されたCurlハッシュ関数の仕様により、量子計算機耐性がある。
 
-　IOTAのためのコインも発行されている。これがICOのような形で、IOTA財団の活動資金となっている。一方で、IOTAコインの取引の金額と、不要になったはずの手数料などとの関係が曖昧であることは問題点である。
-　技術的にはDAGは、ブロックチェーンの問題を解決する可能性がある手法として、一定の注目は浴びているものの、DAGのような形態を利用した分散台帳が本当に安全であるのか、については信頼に足る研究成果がないのが現状で、現状では多くの疑問が呈されている。
+　IOTAのためのコインも発行されている。これがICOのような形で、IOTA財団の活動資金となっている。一方で、IOTAコインの取引の金額と、不要になったはずの手数料などとの関係が曖昧であることは問題点である。技術的にはDAGは、ブロックチェーンの問題を解決する可能性がある手法として、一定の注目は浴びているものの、DAGのような形態を利用した分散台帳が本当に安全であるのか、については信頼に足る研究成果がないのが現状で、現状では多くの疑問が呈されている。
 
 #### 3進計算機
 
@@ -114,14 +113,26 @@ http://www.tangleblog.com/wp-content/uploads/2018/02/letters.pdf
 - https://thebitcoinnews.com/mit-criticizes-iota-gaping-hole-in-its-software-and-deceptive-marketing/
 - https://blog.iota.org/official-iota-foundation-response-to-the-digital-currency-initiative-at-the-mit-media-lab-part-1-72434583a2
 
-### IOTAプロジェクトの新たな攻撃募集（1p）
-- Call for attack to Troika
-http://blog.iota.org/678e741315e8
-http://blog.iota.org/615d2d79001
+### IOTAプロジェクトの新たな攻撃募集
+2018年12月に、IOTAとCYBERCRYPTは、Trokiaと呼ばれる3進数計算機用の新しいハッシュ関数を提案し、ラウンド数を減らしたバージョンに対して攻撃が成功した人に対して、200Kユーロの賞金を与えることを発表した（http://blog.iota.org/678e741315e8）。
 
+CYBERCRYPTによると、このハッシュ関数は、243trit出力で、243trit相当の2nd preimage resistanceと、243/2 trits相当のCollision resistanceを持つと主張している。構造は、3進数用のPermutationと、スポンジ構造からなっている。Permutationは、以下から構成されるとしている。
 
-<!--以上今晩-->
+- SubTrytes: 3-TritsのS-BOXを適用する演算
+- ShiftRows: 固定値を使って列のローテーションを行う演算
+- ShiftLanes: 固定値を使ってレーンのローテーションを行う演算
+- AddColumnParity: 2つの隣接するカラムのパリティを各カラムに加算する演算
+- AddRoundConstant: ラウンドに依存する固定値を加算する演算
 
+このChallengeでは、243 trit出力のCollision例を見つけるChallengeと、243 trit出力に対するpre-imageを見つけるChallengeが行われている。この報告書の執筆時点では、Collisionについては2ラウンドまで発見されており、pre-imageについては1ラウンドまで発見されている。
+
+関連するドキュメントは以下からダウンロードできる。
+
+- TrokiaのWeb Page：http://www.cyber-crypt.com/troika/
+- ChallengeのWeb Page: https://www.cyber-crypt.com/troika-challenge/
+- リファレンスドキュメント: https://www.cyber-crypt.com/wp-content/uploads/2018/12/20181221.iota_.troika-reference.v1.0.1.pdf
+- リファレンス実装：https://github.com/Troikahash/reference
+- 検証ツール：Tool to verify solutions
 
 ### IOTAプロジェクトの現状
 #### プロダクト
