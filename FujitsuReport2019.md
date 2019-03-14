@@ -78,7 +78,6 @@ IOTAにおいては、Curl-P-27がハッシュ関数として使われていた�
 - Side Tangle Attack
 
 #### 現状の技術評価
-
 - スケーラビリティの向上
 - 省リソースデバイスでも実行可能であること
 - トランザクション手数料が0であること
@@ -86,34 +85,64 @@ IOTAにおいては、Curl-P-27がハッシュ関数として使われていた�
 - オフライン処理の許容
 - 耐量子計算機
 - セキュリティ
+- 異常系
 
-
-<!--以下今晩-->
-
-### IOTAプロジェクトについて指摘されたセキュリティ上の問題点と対応経緯（2p）
+### IOTAプロジェクトについて指摘されたセキュリティ上の問題点と対応経緯
 #### Curl ハッシュ関数の安全性の指摘
-MITとボストン大学の研究者によって、IOTAに使われているCurlハッシュ関数と電子署名の仕様に対する攻撃が手法の概要と実例とともに示されている 。
-Curlハッシュ関数はSHA3の仕様のサブセットを利用して作られているが、このハッシュ関数そのものの仕様に暗号学的に大きな問題が存在し、暗号学的なハッシュ関数としては安全ではなく、IOTAのトランザクション生成に対する攻撃が行えることを示している。
+MITとボストン大学の研究者によって、IOTAに使われているCurlハッシュ関数と電子署名の仕様に対する攻撃が手法の概要と実例とともに示されている。Curlハッシュ関数はSHA3の仕様のサブセットを利用して作られているが、このハッシュ関数そのものの仕様に暗号学的に大きな問題が存在し、暗号学的なハッシュ関数としては安全ではなく、IOTAのトランザクション生成に対する攻撃が行えることを示している。
 
-- Attack on Curl
 Ethan Heilmanらによる論文によると、Curl-P-27のコリジョンを発見する例として、あるランダムなメッセージを選び、そのメッセージの第26tritを反転させたメッセージについてコリジョンとなる確率が最低で$1/(2^{42.40})$となることが示されている。これは23ビットセキュリティ（46ビット出力のハッシュ関数）に相当する。
-現実の攻撃には、第81tritを変えることで、トランザクションの有効性に影響を与えることなく、コリジョンを利用することができる。
+現実の攻撃には、第81tritを変えることで、トランザクションの有効性に影響を与えることなく、コリジョンを利用することができることが示されている。
 
-- Real attack demo
-- Timeline
-上記の論文を発表した研究グループは、2017年7月にIOTAの開発グループに対して脆弱性を提示した。その結果としてIOTAの開発グループはCurl-P-27を、別のハッシュ関数である[Kerl](http://github.com/iotaledger/kerl)に置き換えた。
+#### 主なタイムライン
+上記の論文を発表した研究グループは、2017年7月にIOTAの開発グループに対して脆弱性を提示した。その結果としてIOTAの開発グループはCurl-P-27を、別のハッシュ関数である[Kerl](http://github.com/iotaledger/kerl)に置き換えた。一方で、IOTAの開発チームは、これをコピープロテクション目的のバックドアと主張した。
 
-一方で、IOTAの開発チームは、これをコピープロテクション目的のバックドアと主張した。
-上記の脆弱性の開示は、Responsible Disclosureの手続きに則って行われたが、IOTA側の問題解決に対する動きが遅く、IOTA財団とMIT DCI（Digital Currency Initiative）による批判の応酬となっている。現時点では、指摘された問題については修正がなされているが、MIT DCIからは、ICOの正当性を含めてIOTAのプロジェクトそのものについての疑義が示されている。公式になされているアクションは、MIT DCI側からは2017年12月20日付の伊藤穰一所長名での問題点を指摘するステートメント であり、IOTA側からは2018年1月7日付の、ブログ記事による返答 である。2018年2月には、両者の内部のやり取りのメールが何者かによってネット上に公開されている 。
+上記の脆弱性の開示は、Responsible Disclosureの手続きに則って行われたが、IOTA側の問題解決に対する動きが遅く、IOTA財団とMIT DCI（Digital Currency Initiative）による批判の応酬となった。現時点では、指摘された問題については修正がなされているが、MIT DCIからは、ICOの正当性を含めてIOTAのプロジェクトそのものについての疑義が示されている。公式になされているアクションは、MIT DCI側からは2017年12月20日付の伊藤穰一所長名での問題点を指摘するステートメント であり、IOTA側からは2018年1月7日付の、ブログ記事による返答 である。2018年2月には、両者の内部のやり取りのメールが何者かによってネット上に公開されている（http://www.tangleblog.com/wp-content/uploads/2018/02/letters.pdf）。
 
+- 2017年7月15日：ボストン大学Ethan Heilmanより、Curlに対する差分攻撃の方法、実例と修正提案（標準的なハッシュ関数を用いることなど）がIOTAチームに提示される
+- 7月15日-17日：セキュリティ関する評価ドキュメント等をリクエストするが回答なし。
+- 7月22日：Ethan Heilmanより、同じサイズのメッセージのCollisionを見つけることができ、その結果署名の安全性が破られることをIOTAチームに提示。1週間程度で論文として公開したいと提示。
+- 7月23日：IOTAチームから、より深い議論をしたいことと、1週間程度で論文公開を思いとどまるようにリクエスト。同日、攻撃の詳細についてIPTAチームからEthanに再質問。同日、Ethanから質問に対する回答。
+- 7月25日：Ethanから、IOTAにおける脆弱性修正の方針について回答がないことについて質問。また、他の暗号学者とのやりとりについてccで含めるようにリクエスト。また、ラウンド数を増やす改善は役立たないので思い留めるようにリクエスト。同日、IOTAチームから対応スケジュールを提示。（8月5日にCurlをKeccakに変更、8月12日に詳細を公表。）
+- 7月27日：Neha Narulaから、タイムラインを守るのであれば、論文の公表を8月12日まで待つとの連絡。
+- 7月30日：ハッシュ関数の安全性定義に基本についての質疑。
+- 7月31日：Ethanから今回の脆弱性についてCVE番号のアサインを行ったか質問。OTAから、Tangleに関して安全性評価ができる暗号専門家がすぐに見つからないと連絡。また、Ethanの指摘について、暗号学の知見に基づかない反論。また、脆弱性の全容がわかっていないため、CVE番号のアサインは行なっていないと回答。
+- 8月4日：IOTAから、ドキュメントはほぼ書き終わっているが、その前にEthanへすでに行なっている質問に答えるように回答。EUF-CMAは破れていないと反論。
+- 8月5日：Ethanからドキュメントの公開予定日について改めて質問。また質問について回答。EUF-CMAは破れていることについて改めて説明。
+- 8月5日：IOTAからEthanに、改めてEthanのステートメントについて確認と反論。同日、EUF-CMAについてなんどもやりとり。Nehaから、プロフェッショナルではなく、コミュニケーションがうまく取れないとの通告。
+- 8月7日：IOTAから、当日の夜にKeccakに移行することなどのスケジュールの若干の遅延の連絡。その後、公開の方法、ステートメントなどについてやりとり。当日IOTAがブログポストを公開。
+- 8月13日：IOTAから改めて、EUF-CMAの定義について反論。
+- 9月6日：脆弱性レポートの案をIOTAに提示。IOTAからレポートへの修正（特にUEF-CMAについて）依頼。Nehaはその修正依頼について拒否。
+- 9月7日：IOTAから、Coindeskの記者から、Ethanが脆弱性の文書の公表を急いでると耳にしたとNehaにメール。暗号通貨に関するConflict of Interest（利益相反）をもっており、responsible disclosureの観点からもスキャダルであると警告。Nehaから、Responsible Disclosureの期間は終わっていると反論。Conflict of Interestについても反論。IOTAからは、アカデミアとしての行動がおかしいと指摘。
 
-### IOTA財団の対応における組織的な問題点（2p）
-- Summary from tangle blog
-http://www.tangleblog.com/wp-content/uploads/2018/02/letters.pdf
+上記のやりとりから、両者の関係はさらに悪化する。MITからの文書は9月7日に公開された（https://medium.com/@neha/cryptographic-vulnerabilities-in-iota-9a6a9ddc4367）。
+
+その後2017年12月14日にこの経緯とは無関係に、MIT Media ReviewがIOTAについての記事（A Cryptocurrency Without a Blockchain Has Been Built to Outperform Bitcoin）を掲載する
+（https://www.technologyreview.com/s/609771/a-cryptocurrency-without-a-blockchain-has-been-built-to-outperform-bitcoin/）。
+この記事を受けて、MITとしてIOTAを推奨しているように見えることを避けるために、DCIが伊藤穰一所長名で、MITメディアラボのページに記事（Our response to "A Cryptocurrency Without a Blockchain Has Been Built to Outperform Bitcoin"）を掲載する（https://www.media.mit.edu/posts/iota-response/）。
+この記事の中では、IOTAについてのMIT Technology Reviewに記載された記事について、以下の問題点を指摘している。
+
+- IOTAと大企業との連携について：11月28日時点では、マイクロソフト、ドイツテレコム、富士通と実験を行っているという点について、12月16日付で、マイクロソフト、シスコ、ファーウェイと変わっていて信用がおけない。
+- IOTAはdecentralizedであり、Tamper-proofである：11月にIOTAのネットワークが3日間ダウンした。Coordinatorと呼ばれる単一障害点があることが原因。
+- 手数料が不要：この点がミスリーディングである。実際にはビットコインでも自分のトランザクションを承認しマイニングフィーを得ることで手数料がなくなることがある。
+- 脆弱性が報告されたが問題は解決した：この脆弱性は意図したものであり、copy protectionの一環であると主張しているが、そのあと、彼はこのコードを自分で書いたのではなく、AIが書いたと主張している。
+
+これに反論する形で、IOTAは公式の反論文書（Official IOTA Foundation Response to the Digital Currency Initiative at the MIT Media Lab ）を2018年1月7日に公開する（https://blog.iota.org/official-iota-foundation-response-to-the-digital-currency-initiative-at-the-mit-media-lab-part-1-72434583a2）。
+この反論文書の要点は以下の通りである。
+
+- Responsible Disclosureのプロセスに問題がある。アカデミックプロセスにしたがっておらず、いくつかの質問にも正しく答えていない。
+- MIT DCI自体に、Conflict of Interest（CoI：利益相反）が存在する。例えば、Neha NarulaとTadge Dryjaは競合する暗号通貨であるBitcoinとLightning Networkの開発に深く関わっており、IOTAを攻撃するという観点でCoIが存在する。Madars Virzaは、やはり競合する暗号通貨であるZCashの著者である。脆弱性の指摘の文書において、独自暗号を使うべきではないと指摘されているがZCashでは独自暗号が使われている。Ethan Heilmanは、DAGベースのプロトコルSPECTREの開発者であり、やはり競合に当たる。DAGLabsはすでにシリーズAの段階にあり、金銭的にたの競合を不当に攻撃するインセンティブがある。そして、Joichi Itoは、自身のWebページでCoIについて公開しているが、何度か修正されており、IoT device connectivityの競合であるHelium Systemの記載を削除している。また、Bitcoin Coreの主要メンバーを多く抱えるBlockstreamの株主であるDigital Garageの取締役であり、やはり競合暗号通貨であるIOTAへのCoIが存在する。
+- パートナーシップについてのプレスリリースのポリシーの確認
+- Coordinatorノードの脆弱性対応によってネットワークが止まったのは確かだが、その修正はコミュニティの協力でおこなわれた。また同種の問題は、BitcoinやEthereumでも発生している。
+- IOTAでは、送金額と着金額は同じであり、その意味で手数料は0である。
+- IOTAのプロトコルの安全性はCollision resistanceではなく、One-waynessに基づくものであり、脆弱性に対するClaimは間違っている。
+
+### IOTA財団の対応における問題点
+
 - https://thebitcoinnews.com/mit-criticizes-iota-gaping-hole-in-its-software-and-deceptive-marketing/
-- https://blog.iota.org/official-iota-foundation-response-to-the-digital-currency-initiative-at-the-mit-media-lab-part-1-72434583a2
 
-### IOTAプロジェクトの新たな攻撃募集
+
+### IOTAプロジェクトの新たなハッシュ関数の提案と攻撃募集
 2018年12月に、IOTAとCYBERCRYPTは、Trokiaと呼ばれる3進数計算機用の新しいハッシュ関数を提案し、ラウンド数を減らしたバージョンに対して攻撃が成功した人に対して、200Kユーロの賞金を与えることを発表した（http://blog.iota.org/678e741315e8）。
 
 CYBERCRYPTによると、このハッシュ関数は、243trit出力で、243trit相当の2nd preimage resistanceと、243/2 trits相当のCollision resistanceを持つと主張している。構造は、3進数用のPermutationと、スポンジ構造からなっている。Permutationは、以下から構成されるとしている。
@@ -160,6 +189,8 @@ IOTAは、研究開発のロードマップとして以下の7つの項目を示
 - サプライチェーン
 - トレーサビリティ
 - Single Point
+
+
 
 
 ## 標準化および研究開発動向 (5p)
